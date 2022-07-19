@@ -1,12 +1,12 @@
 package com.inventory.catWannaEat.models;
 
-public enum TimesOfDay {
+public enum TimeOfDay {
     MORNING("Утро"),
     DAY("День"),
     EVENiNG("Вечер"),
     NIGHT("Ночь");
 
     String stringTimesOfDay;
-    private TimesOfDay(String stringTimesOfDay){
+    private TimeOfDay(String stringTimesOfDay){
     }
 }
