@@ -1,7 +1,8 @@
-package com.inventory.catWannaEat.api;
+package com.inventory.cat.wanna.eat.service.api;
 
 
-import com.inventory.catWannaEat.models.FoodPlan;
+import com.inventory.cat.wanna.eat.dto.FoodPlanDTO;
+import com.inventory.cat.wanna.eat.models.FoodPlan;
 
 import java.util.List;
 
@@ -17,14 +18,9 @@ public interface FoodPlanService {
     FoodPlan getFoodPlan(long id);
 
     /**
-     * Получить текущий план питания
+     * Создать новый план питания
      */
-    FoodPlan getCurrentFoodPlan();
-
-    /**
-     * Изменить текущий план питания
-     */
-    void changeCurrentFoodPlan(long id);
+    void createFoodPlan(FoodPlanDTO foodPlan);
 
     /**
      * Удалить план питания
@@ -32,9 +28,13 @@ public interface FoodPlanService {
     void removeFoodPlan(long id);
 
     /**
-     * Создать новый план питания
+     * Изменить текущий план питания
      */
-    void createFoodPlan();
+    void changeCurrentFoodPlan(long id);
+
+
+
+
 
 
 }

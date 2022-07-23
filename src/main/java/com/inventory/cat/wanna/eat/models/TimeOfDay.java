@@ -1,4 +1,4 @@
-package com.inventory.catWannaEat.models;
+package com.inventory.cat.wanna.eat.models;
 
 public enum TimeOfDay {
     MORNING("Утро"),
