@@ -2,11 +2,10 @@ package com.inventory.cat.wanna.eat.service;
 
 import com.inventory.cat.wanna.eat.dto.CatDTO;
 import com.inventory.cat.wanna.eat.mappers.CatMapper;
+import com.inventory.cat.wanna.eat.models.Cat;
 import com.inventory.cat.wanna.eat.repos.CatRepo;
 import com.inventory.cat.wanna.eat.service.api.CatService;
-import com.inventory.cat.wanna.eat.models.Cat;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

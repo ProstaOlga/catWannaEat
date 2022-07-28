@@ -12,23 +12,17 @@ import javax.persistence.*;
 public class Meal {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
-    @ManyToOne
-    private Cat cat;
+    private Long id;
 
     @OneToOne
     private Food food;
 
-    @ManyToOne
-    private FoodPlan foodPlan;
-    
     @Column
-    private long weight;
+    private Double weight;
     @Column
-    private TimeOfDay timesOfDay;
+    private TimesOfDay timesOfDay;
 
-    public Meal(Food food, long weight, TimeOfDay timesOfDay) {
+    public Meal(Food food, Double weight, TimesOfDay timesOfDay) {
         this.food = food;
         this.weight = weight;
         this.timesOfDay = timesOfDay;

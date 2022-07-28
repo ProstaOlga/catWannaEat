@@ -10,12 +10,12 @@ public interface FoodService {
     /**
      * Получить список типов еды
      */
-    List<Food> getFoodTypes();
+    List<FoodDTO> getFoodTypes();
 
     /**
      * Получить тип еды по id
      */
-    Food getFoodTypeById(long id);
+    FoodDTO getFoodTypeById(Long id);
 
     /**
      * Добавить новый тип еды
@@ -25,6 +25,6 @@ public interface FoodService {
     /**
      * Удалить тип еды
      */
-    void removeFoodType(long id);
+    void removeFoodType(Long id);
 
 }

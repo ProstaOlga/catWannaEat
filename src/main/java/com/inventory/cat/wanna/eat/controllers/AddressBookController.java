@@ -24,7 +24,7 @@ public class AddressBookController {
         return new HttpEntity<>(addressBookService.getAddresseeById(id));
     }
 
-    @PutMapping()
+    @PostMapping()
     public void create(@RequestBody AddresseeDTO addressee) {
         addressBookService.createAddressee(addressee);
     }
@@ -34,8 +34,8 @@ public class AddressBookController {
         addressBookService.removeAddressee(id);
     }
 
-    @PostMapping()
-    public void change(@RequestBody AddresseeDTO addressee) {
-        addressBookService.changeAddresseesEmail(addressee);
+    @PutMapping()
+    public void update(@RequestBody AddresseeDTO addressee) {
+        addressBookService.updateAddresseesEmail(addressee);
     }
 }

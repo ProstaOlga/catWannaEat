@@ -1,4 +1,13 @@
 package com.inventory.cat.wanna.eat.repos;
 
-public interface FoodBagRepo {
+import com.inventory.cat.wanna.eat.models.FoodBag;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface FoodBagRepo extends CrudRepository<FoodBag, Long> {
+
+    @Query("SELECT am from food_bag am where am.id=?1")
+    public FoodBag getById(Long id);
 }

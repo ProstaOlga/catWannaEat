@@ -5,40 +5,39 @@ import com.inventory.cat.wanna.eat.dto.FoodPlanDTO;
 import com.inventory.cat.wanna.eat.models.FoodPlan;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/cat/{catid}/foodplan")
+@RequestMapping("/cat/{catId}/foodplan")
 public class FoodPlanController {
 
     private final FoodPlanService foodPlanService;
 
     @GetMapping()
-    public HttpEntity<List<FoodPlan>> view(){
+    public HttpEntity<List<FoodPlanDTO>> view(){
         return new HttpEntity<>(foodPlanService.getFoodPlans());
     }
 
     @GetMapping("/{id}")
-    public HttpEntity<FoodPlan> view(@PathVariable long id){
+    public HttpEntity<FoodPlanDTO> view(@PathVariable Long id){
         return new HttpEntity<>(foodPlanService.getFoodPlan(id));
     }
 
-    @PutMapping()
-    public void create(FoodPlanDTO foodPlan){
-        foodPlanService.createFoodPlan(foodPlan);
+    @PostMapping()
+    public void create(@PathVariable Long catId, @RequestBody FoodPlanDTO foodPlan){
+        foodPlanService.createFoodPlan(catId, foodPlan);
     }
 
     @DeleteMapping("/{id}")
-    public void remove(@PathVariable long id){
+    public void remove(@PathVariable Long id){
         foodPlanService.removeFoodPlan(id);
     }
 
-    @PostMapping("/{id}")
-    public void changeCurrentFoodPlan(@PathVariable long id){
-        foodPlanService.changeCurrentFoodPlan(id);
+    @PutMapping("/{id}")
+    public void updateCurrentFoodPlan(@PathVariable Long id){
+        foodPlanService.updateCurrentFoodPlan(id);
     }
 }

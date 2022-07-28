@@ -1,11 +1,15 @@
 package com.inventory.cat.wanna.eat.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
+@Getter
+@Setter
 public class FoodPlanDTO {
-    long id;
+    Long id;
     String name;
-    CatDTO cat;
     boolean current;
     List<MealDTO> meals;
 }

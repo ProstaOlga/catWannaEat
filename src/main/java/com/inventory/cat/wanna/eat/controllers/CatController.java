@@ -28,7 +28,7 @@ public class CatController {
         return new HttpEntity<>(catService.getCatById(id));
     }
 
-    @PutMapping()
+    @PostMapping()
     public void create(@RequestBody CatDTO cat){
         catService.createCat(cat);
     }

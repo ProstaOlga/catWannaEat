@@ -4,32 +4,31 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+
 @Entity(name = "food_bag")
 @Table(name = "food_bag")
 public class FoodBag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long foodBagId;
-
-    @ManyToOne
-    private Cat cat;
+    private Long id;
 
     @OneToOne
     private Food foodType;
 
     @Column
-    private long amount;
+    private Long amount;
 
     @Column
-    private LocalDateTime packingDate;
+    private LocalDate packingDate;
 
     public FoodBag(Food foodType) {
         this.foodType = foodType;
-        this.packingDate = LocalDateTime.now();
+        this.packingDate = LocalDate.now();
     }
 
     public FoodBag() {

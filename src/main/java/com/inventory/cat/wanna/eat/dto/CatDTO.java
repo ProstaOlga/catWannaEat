@@ -10,4 +10,7 @@ import java.util.List;
 public class CatDTO {
     Long id;
     String name;
+    int age;
+    int weight;
+    String breed;
 }

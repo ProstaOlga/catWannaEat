@@ -1,7 +1,6 @@
 package com.inventory.cat.wanna.eat.service.api;
 
 import com.inventory.cat.wanna.eat.dto.FoodBagDTO;
-import com.inventory.cat.wanna.eat.models.FoodBag;
 
 import java.util.List;
 
@@ -9,12 +8,12 @@ public interface FoodBagService {
     /**
      * Получить список пакетов
      */
-    List<FoodBag> getFoodBags();
+    List<FoodBagDTO> getFoodBags();
 
     /**
      * Поиск пакета по id
      */
-    FoodBag getFoodBagById(long id);
+    FoodBagDTO getFoodBagById(Long id);
 
     /**
      * Добавить новый пакет
@@ -24,6 +23,11 @@ public interface FoodBagService {
     /**
      * Удалить пакет
      */
-    void removeFoodBag(long id);
+    void removeFoodBag(Long id);
+
+    /**
+     * Изменить пакет
+     */
+    void updateFoodBag(Long id, FoodBagDTO foodBag);
 
 }

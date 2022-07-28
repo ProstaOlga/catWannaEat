@@ -16,22 +16,22 @@ public class FoodController {
     private final FoodService foodService;
 
     @GetMapping()
-    public HttpEntity<List<Food>> view() {
+    public HttpEntity<List<FoodDTO>> view() {
         return new HttpEntity<>(foodService.getFoodTypes());
     }
 
     @GetMapping("/{id}")
-    public HttpEntity<Food> view(@PathVariable long id) {
+    public HttpEntity<FoodDTO> view(@PathVariable Long id) {
         return new HttpEntity<>(foodService.getFoodTypeById(id));
     }
 
-    @PutMapping()
+    @PostMapping()
     public void create(@RequestBody FoodDTO food) {
         foodService.createFoodType(food);
     }
 
     @DeleteMapping("/{id}")
-    public void remove(@PathVariable long id) {
+    public void remove(@PathVariable Long id) {
         foodService.removeFoodType(id);
     }
 }

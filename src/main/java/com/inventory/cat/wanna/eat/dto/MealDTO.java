@@ -1,9 +1,14 @@
 package com.inventory.cat.wanna.eat.dto;
 
+import com.inventory.cat.wanna.eat.models.TimesOfDay;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class MealDTO {
-    long id;
-    CatDTO cat;
+    Long id;
     FoodDTO food;
-    long weight;
-    String timesOfDay;
+    Double weight;
+    TimesOfDay timesOfDay;
 }

@@ -1,11 +1,14 @@
 package com.inventory.cat.wanna.eat.dto;
 
-import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
+@Getter
+@Setter
 public class FoodBagDTO {
-    long id;
-    CatDTO cat;
+    Long id;
     FoodDTO foodType;
-    long amount;
-    LocalDateTime packingDate;
+    Long amount;
+    String packingDate;
 }

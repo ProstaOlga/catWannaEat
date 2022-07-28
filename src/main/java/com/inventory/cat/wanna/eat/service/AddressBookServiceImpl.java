@@ -43,7 +43,7 @@ public class AddressBookServiceImpl implements AddressBookService {
     }
 
     @Override
-    public void changeAddresseesEmail(AddresseeDTO addressee) {
+    public void updateAddresseesEmail(AddresseeDTO addressee) {
 
     }
 }

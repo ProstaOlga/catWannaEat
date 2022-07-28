@@ -29,6 +29,6 @@ public interface AddressBookService {
     /**
      * Изменить почту адресата
      */
-    void changeAddresseesEmail(AddresseeDTO addressee);
+    void updateAddresseesEmail(AddresseeDTO addressee);
 
 }

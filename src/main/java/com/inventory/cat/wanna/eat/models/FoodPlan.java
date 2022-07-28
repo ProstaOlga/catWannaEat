@@ -14,7 +14,7 @@ import java.util.List;
 public class FoodPlan {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Column(unique = true)
     private String name;
@@ -27,6 +27,9 @@ public class FoodPlan {
 
     @Column
     private LocalDateTime finished;
+
+    @Column
+    private boolean current;
 
     @OneToMany
     private List<Meal> meals;

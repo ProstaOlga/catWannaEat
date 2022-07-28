@@ -10,27 +10,27 @@ public interface FoodPlanService {
     /**
      * Получить список планов
      */
-    List<FoodPlan> getFoodPlans();
+    List<FoodPlanDTO> getFoodPlans();
 
     /**
      * Получить план питания по id
      */
-    FoodPlan getFoodPlan(long id);
+    FoodPlanDTO getFoodPlan(Long id);
 
     /**
      * Создать новый план питания
      */
-    void createFoodPlan(FoodPlanDTO foodPlan);
+    void createFoodPlan(Long catId, FoodPlanDTO foodPlan);
 
     /**
      * Удалить план питания
      */
-    void removeFoodPlan(long id);
+    void removeFoodPlan(Long id);
 
     /**
      * Изменить текущий план питания
      */
-    void changeCurrentFoodPlan(long id);
+    void updateCurrentFoodPlan(Long id);
 
 
 

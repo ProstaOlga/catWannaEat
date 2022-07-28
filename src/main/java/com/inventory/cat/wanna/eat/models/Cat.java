@@ -19,6 +19,16 @@ public class Cat {
     @Column(unique = true)
     private String name;
 
+    @Column
+    private int age;
+
+    @Column
+    private int weight;
+
+    @Column
+    private String breed;
+
+
     public Cat(String name) {
         this.name = name;
     }
