@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FoodDTO {
-    Long id;
-    String foodType;
+    private Long id;
+    private String foodType;
 }

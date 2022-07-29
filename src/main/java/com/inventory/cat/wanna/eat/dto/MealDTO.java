@@ -7,8 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MealDTO {
-    Long id;
-    FoodDTO food;
-    Double weight;
-    TimesOfDay timesOfDay;
+    private Long id;
+    private FoodDTO food;
+    private Double weight;
+    private TimesOfDay timesOfDay;
+    private FoodPlanDTO foodPlan;
 }

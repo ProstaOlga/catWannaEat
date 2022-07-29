@@ -20,6 +20,7 @@ public class CatServiceImpl implements CatService {
     @Override
     public List<CatDTO> getCats() {
         List<Cat> cats = (List<Cat>) catRepo.findAll();
+
         return cats.stream()
                 .map(CatMapper.INSTANCE::catToCatDTO)
                 .collect(Collectors.toList());

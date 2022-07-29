@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "meal")
 public class Meal {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
@@ -21,6 +21,11 @@ public class Meal {
     private Double weight;
     @Column
     private TimesOfDay timesOfDay;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "food_plan_id", updatable = false)
+    private FoodPlan foodPlan;
 
     public Meal(Food food, Double weight, TimesOfDay timesOfDay) {
         this.food = food;

@@ -1,6 +1,5 @@
 package com.inventory.cat.wanna.eat.dto;
 
-import com.inventory.cat.wanna.eat.models.FoodBag;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,9 +7,11 @@ import java.util.List;
 @Getter
 @Setter
 public class CatDTO {
-    Long id;
-    String name;
-    int age;
-    int weight;
-    String breed;
+    private Long id;
+    private String name;
+    private int age;
+    private int weight;
+    private String breed;
+    private List<ProfileDTO> profiles;
+    private List<FoodPlanDTO> foodPlans;
 }

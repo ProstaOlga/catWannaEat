@@ -13,13 +13,14 @@ import java.util.List;
 @Table(name = "food_plan")
 public class FoodPlan {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cat_id", updatable = false)
     private Cat cat;
 
     @Column
@@ -31,7 +32,7 @@ public class FoodPlan {
     @Column
     private boolean current;
 
-    @OneToMany
+    @OneToMany(mappedBy = "foodPlan")
     private List<Meal> meals;
 
 
