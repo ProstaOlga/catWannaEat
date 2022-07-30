@@ -5,6 +5,7 @@ import com.inventory.cat.wanna.eat.mappers.CatMapper;
 import com.inventory.cat.wanna.eat.models.Cat;
 import com.inventory.cat.wanna.eat.repos.CatRepo;
 import com.inventory.cat.wanna.eat.service.api.CatService;
+import com.inventory.cat.wanna.eat.util.ProfileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,9 @@ public class CatServiceImpl implements CatService {
 
     @Override
     public void createCat(CatDTO cat) {
-        catRepo.save(CatMapper.INSTANCE.catDTOtoCat(cat));
+        var eCat = CatMapper.INSTANCE.catDTOtoCat(cat);
+        eCat.getProfiles().add(ProfileUtil.getCurrentProfile());
+        catRepo.save(eCat);
     }
 
     @Override

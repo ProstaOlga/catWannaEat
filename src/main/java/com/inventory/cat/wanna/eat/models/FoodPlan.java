@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -36,10 +37,8 @@ public class FoodPlan {
     private List<Meal> meals;
 
 
-    public FoodPlan(String name) {
-        this.name = name;
-    }
 
     public FoodPlan() {
+        meals = new ArrayList<>();
     }
 }

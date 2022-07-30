@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-29T18:20:37+0300",
+    date = "2022-07-30T03:39:13+0300",
     comments = "version: 1.5.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.4.jar, environment: Java 11.0.14.1 (Amazon.com Inc.)"
 )
 @Component
@@ -55,19 +55,6 @@ public class ProfileMapperImpl implements ProfileMapper {
         return profileDTO;
     }
 
-    protected List<Profile> profileDTOListToProfileList(List<ProfileDTO> list) {
-        if ( list == null ) {
-            return null;
-        }
-
-        List<Profile> list1 = new ArrayList<Profile>( list.size() );
-        for ( ProfileDTO profileDTO : list ) {
-            list1.add( addresseeDTOtoAddressee( profileDTO ) );
-        }
-
-        return list1;
-    }
-
     protected Food foodDTOToFood(FoodDTO foodDTO) {
         if ( foodDTO == null ) {
             return null;
@@ -90,9 +77,9 @@ public class ProfileMapperImpl implements ProfileMapper {
 
         meal.setId( mealDTO.getId() );
         meal.setFood( foodDTOToFood( mealDTO.getFood() ) );
+        meal.setFoodId( mealDTO.getFoodId() );
         meal.setWeight( mealDTO.getWeight() );
         meal.setTimesOfDay( mealDTO.getTimesOfDay() );
-        meal.setFoodPlan( foodPlanDTOToFoodPlan( mealDTO.getFoodPlan() ) );
 
         return meal;
     }
@@ -150,7 +137,6 @@ public class ProfileMapperImpl implements ProfileMapper {
         cat.setAge( catDTO.getAge() );
         cat.setWeight( catDTO.getWeight() );
         cat.setBreed( catDTO.getBreed() );
-        cat.setProfiles( profileDTOListToProfileList( catDTO.getProfiles() ) );
         cat.setFoodPlans( foodPlanDTOListToFoodPlanList( catDTO.getFoodPlans() ) );
 
         return cat;
@@ -164,19 +150,6 @@ public class ProfileMapperImpl implements ProfileMapper {
         List<Cat> list1 = new ArrayList<Cat>( list.size() );
         for ( CatDTO catDTO : list ) {
             list1.add( catDTOToCat( catDTO ) );
-        }
-
-        return list1;
-    }
-
-    protected List<ProfileDTO> profileListToProfileDTOList(List<Profile> list) {
-        if ( list == null ) {
-            return null;
-        }
-
-        List<ProfileDTO> list1 = new ArrayList<ProfileDTO>( list.size() );
-        for ( Profile profile : list ) {
-            list1.add( addresseeToAddresseeDTO( profile ) );
         }
 
         return list1;
@@ -203,10 +176,10 @@ public class ProfileMapperImpl implements ProfileMapper {
         MealDTO mealDTO = new MealDTO();
 
         mealDTO.setId( meal.getId() );
+        mealDTO.setFoodId( meal.getFoodId() );
         mealDTO.setFood( foodToFoodDTO( meal.getFood() ) );
         mealDTO.setWeight( meal.getWeight() );
         mealDTO.setTimesOfDay( meal.getTimesOfDay() );
-        mealDTO.setFoodPlan( foodPlanToFoodPlanDTO( meal.getFoodPlan() ) );
 
         return mealDTO;
     }
@@ -264,7 +237,6 @@ public class ProfileMapperImpl implements ProfileMapper {
         catDTO.setAge( cat.getAge() );
         catDTO.setWeight( cat.getWeight() );
         catDTO.setBreed( cat.getBreed() );
-        catDTO.setProfiles( profileListToProfileDTOList( cat.getProfiles() ) );
         catDTO.setFoodPlans( foodPlanListToFoodPlanDTOList( cat.getFoodPlans() ) );
 
         return catDTO;

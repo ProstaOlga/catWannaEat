@@ -7,8 +7,8 @@ import lombok.Setter;
 @Setter
 public class FoodBagDTO {
     private Long id;
-    private FoodDTO foodType;
+//    private FoodDTO food;
+    private Long foodId;
     private Long amount;
     private String packingDate;
-    private ProfileDTO user;
 }

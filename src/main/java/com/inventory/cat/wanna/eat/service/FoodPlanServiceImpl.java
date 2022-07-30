@@ -41,13 +41,16 @@ public class FoodPlanServiceImpl implements FoodPlanService {
 
     @Override
     public void createFoodPlan(Long catId, FoodPlanDTO foodPlan) {
-        FoodPlan newFoodPlan = FoodPlanMapper.INSTANCE.foodPlanDTOtoFoodPlan(foodPlan);
-        saveMeals(newFoodPlan.getMeals());
-        newFoodPlan.setCat(catRepo.getById(catId));
-        if (newFoodPlan.isCurrent()) {
-            makeCurrent(newFoodPlan);
+        FoodPlan eFoodPlan = FoodPlanMapper.INSTANCE.foodPlanDTOtoFoodPlan(foodPlan);
+        eFoodPlan.setCat(catRepo.getById(catId));
+
+        if (eFoodPlan.isCurrent()) {
+            makeCurrent(eFoodPlan);
         }
-        foodPlanRepo.save(newFoodPlan);
+
+        foodPlanRepo.save(eFoodPlan);
+        Long foodPlanId = eFoodPlan.getId();
+        saveMeals(eFoodPlan.getMeals(), foodPlanId);
     }
 
 
@@ -63,7 +66,10 @@ public class FoodPlanServiceImpl implements FoodPlanService {
     }
 
 
-    private void saveMeals(List<Meal> meals) {
+    private void saveMeals(List<Meal> meals, Long foodPlanId) {
+        meals.stream()
+                .peek(meal -> meal.setFood(foodRepo.getById(meal.getFoodId())))
+                .forEach(meal -> meal.setFoodPlan(foodPlanRepo.getById(foodPlanId)));
         mealRepo.saveAll(meals);
     }
 

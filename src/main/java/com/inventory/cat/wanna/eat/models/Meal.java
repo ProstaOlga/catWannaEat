@@ -10,16 +10,22 @@ import javax.persistence.*;
 @Entity(name = "meal")
 @Table(name = "meal")
 public class Meal {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "food_id", updatable = false)
     private Food food;
+
+    @Transient
+    private Long foodId;
 
     @Column
     private Double weight;
     @Column
+    @Enumerated(EnumType.STRING)
     private TimesOfDay timesOfDay;
 
 
@@ -27,12 +33,7 @@ public class Meal {
     @JoinColumn(name = "food_plan_id", updatable = false)
     private FoodPlan foodPlan;
 
-    public Meal(Food food, Double weight, TimesOfDay timesOfDay) {
-        this.food = food;
-        this.weight = weight;
-        this.timesOfDay = timesOfDay;
-    }
-
     public Meal() {
     }
+
 }

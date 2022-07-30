@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -27,11 +28,13 @@ public class Profile {
             inverseJoinColumns = {@JoinColumn(name = "cat_id")})
     private List<Cat> cats;
 
-    public Profile(){}
+    @OneToMany(mappedBy = "profile")
+    private List<FoodBag> foodBags;
 
-    public Profile(String name, String email) {
-        this.name = name;
-        this.email = email;
+    public Profile(){
+        cats = new ArrayList<>();
+        foodBags = new ArrayList<>();
     }
+
 
 }

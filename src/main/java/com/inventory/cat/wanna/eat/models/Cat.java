@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,7 +16,7 @@ public class Cat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column
     private String name;
 
     @Column
@@ -36,11 +37,8 @@ public class Cat {
     @OneToMany(mappedBy = "cat")
     private List<FoodPlan> foodPlans;
 
-    public Cat(String name) {
-        this.name = name;
-    }
-
     public Cat() {
-
+        profiles = new ArrayList<>();
+        foodPlans = new ArrayList<>();
     }
 }

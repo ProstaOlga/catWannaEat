@@ -6,6 +6,7 @@ import com.inventory.cat.wanna.eat.models.Meal;
 import com.inventory.cat.wanna.eat.models.TimesOfDay;
 import com.inventory.cat.wanna.eat.repos.FoodRepo;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.InheritConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
