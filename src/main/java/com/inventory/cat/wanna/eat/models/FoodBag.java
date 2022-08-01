@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,11 +13,16 @@ import java.time.LocalDateTime;
 @Table(name = "food_bag")
 public class FoodBag {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private Food foodType;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "food_id", updatable = false)
+    private Food food;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id", updatable = false)
+    private Profile profile;
 
     @Column
     private Long amount;
@@ -26,8 +30,9 @@ public class FoodBag {
     @Column
     private LocalDate packingDate;
 
-    public FoodBag(Food foodType) {
-        this.foodType = foodType;
+
+    public FoodBag(Food food) {
+        this.food = food;
         this.packingDate = LocalDate.now();
     }
 

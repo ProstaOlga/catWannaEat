@@ -1,6 +1,9 @@
 package com.inventory.cat.wanna.eat.service;
 
 import com.inventory.cat.wanna.eat.mappers.FoodMapper;
+import com.inventory.cat.wanna.eat.models.FoodPlan;
+import com.inventory.cat.wanna.eat.models.Meal;
+import com.inventory.cat.wanna.eat.repos.FoodPlanRepo;
 import com.inventory.cat.wanna.eat.repos.FoodRepo;
 import com.inventory.cat.wanna.eat.service.api.FoodService;
 import com.inventory.cat.wanna.eat.dto.FoodDTO;
@@ -16,10 +19,12 @@ import java.util.stream.Collectors;
 public class FoodServiceImpl implements FoodService {
 
     private final FoodRepo foodRepo;
+    private final FoodPlanRepo foodPlanRepo;
 
     @Override
     public List<FoodDTO> getFoodTypes() {
         List<Food> foods = (List<Food>) foodRepo.findAll();
+
         return foods.stream()
                 .map(FoodMapper.INSTANCE::foodToFoodDTO)
                 .collect(Collectors.toList());
@@ -37,6 +42,23 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public void removeFoodType(Long id) {
-        foodRepo.deleteById(id);
+        List<FoodPlan> foodPlans = checkAvailableFoodInFoodPlans(id);
+        if (foodPlans.isEmpty()){
+            foodRepo.deleteById(id);
+        }
+    }
+
+    private List<FoodPlan> checkAvailableFoodInFoodPlans(Long id){
+        List<FoodPlan> foodPlans = (List<FoodPlan>) foodPlanRepo.findAll();
+
+        return foodPlans.stream()
+                .filter(foodPlan -> checkAvailableFoodInMeals(foodPlan.getMeals(), id))
+                .collect(Collectors.toList());
+    }
+
+    private boolean checkAvailableFoodInMeals(List<Meal> meals, Long id) {
+        return  meals.stream().anyMatch(
+                meal -> meal.getFood().getId().equals(id)
+        );
     }
 }

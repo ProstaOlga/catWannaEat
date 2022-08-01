@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -11,14 +13,16 @@ import javax.persistence.*;
 @Table(name = "food")
 public class Food {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
     private String foodType;
 
-    public Food(String foodType) {
-        this.foodType = foodType;
+    @OneToMany(mappedBy = "food")
+    private List<FoodBag> foodBags;
+
+    public Food() {
+        foodBags = new ArrayList<>();
     }
-    public Food() {}
 }

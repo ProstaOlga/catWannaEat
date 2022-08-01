@@ -7,9 +7,9 @@ import java.util.List;
 
 @Getter
 @Setter
-public class FoodPlanDTO {
+public class ProfileDTO {
     private Long id;
     private String name;
-    private boolean current;
-    private List<MealDTO> meals;
+    private String email;
+    private List<CatDTO> cats;
 }

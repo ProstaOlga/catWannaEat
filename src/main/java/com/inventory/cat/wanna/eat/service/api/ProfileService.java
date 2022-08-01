@@ -1,34 +1,34 @@
 package com.inventory.cat.wanna.eat.service.api;
 
-import com.inventory.cat.wanna.eat.dto.AddresseeDTO;
+import com.inventory.cat.wanna.eat.dto.ProfileDTO;
 
 import java.util.List;
 
-public interface AddressBookService {
+public interface ProfileService {
     /**
      * Получить список адресатов
      */
-    List<AddresseeDTO> getAddressees();
+    List<ProfileDTO> getUsers();
 
     /**
      * Найти адресата по id
      */
-    AddresseeDTO getAddresseeById(Long id);
+    ProfileDTO getUserById(Long id);
 
 
     /**
      * Добавить нового адресата
      */
-    void createAddressee(AddresseeDTO addressee);
+    void createUser(ProfileDTO addressee);
 
     /**
      * Удалить адресата
      */
-    void removeAddressee(Long id);
+    void removeUser(Long id);
 
     /**
      * Изменить почту адресата
      */
-    void updateAddresseesEmail(AddresseeDTO addressee);
+    void updateUser(ProfileDTO addressee);
 
 }

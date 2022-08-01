@@ -5,7 +5,9 @@ import com.inventory.cat.wanna.eat.mappers.FoodBagMapper;
 import com.inventory.cat.wanna.eat.models.FoodBag;
 import com.inventory.cat.wanna.eat.repos.CatRepo;
 import com.inventory.cat.wanna.eat.repos.FoodBagRepo;
+import com.inventory.cat.wanna.eat.repos.FoodRepo;
 import com.inventory.cat.wanna.eat.service.api.FoodBagService;
+import com.inventory.cat.wanna.eat.util.ProfileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
 public class FoodBagServiceImpl implements FoodBagService {
 
     private final FoodBagRepo foodBagRepo;
-    private final CatRepo catRepo;
+    private final FoodRepo foodRepo;
     @Override
     public List<FoodBagDTO> getFoodBags() {
         List<FoodBag> foodBags = (List<FoodBag>) foodBagRepo.findAll();
@@ -31,8 +33,10 @@ public class FoodBagServiceImpl implements FoodBagService {
 
     @Override
     public void createFoodBag( FoodBagDTO foodBag) {
-        FoodBag newFoodBag = FoodBagMapper.INSTANCE.foodBagDTOtoFoodBag(foodBag);
-        foodBagRepo.save(newFoodBag);
+        FoodBag eFoodBag = FoodBagMapper.INSTANCE.foodBagDTOtoFoodBag(foodBag);
+        eFoodBag.setFood(foodRepo.getById(foodBag.getFoodId()));
+        eFoodBag.setProfile(ProfileUtil.getCurrentProfile());
+        foodBagRepo.save(eFoodBag);
     }
 
     @Override
@@ -42,7 +46,7 @@ public class FoodBagServiceImpl implements FoodBagService {
 
     @Override
     public void updateFoodBag(Long id, FoodBagDTO foodBag) {
-        FoodBag changeFoodBag = foodBagRepo.getById(id);
+        FoodBag changeFoodBag;
         changeFoodBag = FoodBagMapper.INSTANCE.foodBagDTOtoFoodBag(foodBag);
         foodBagRepo.save(changeFoodBag);
     }

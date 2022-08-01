@@ -3,8 +3,8 @@ package com.inventory.cat.wanna.eat.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -13,10 +13,10 @@ import java.util.List;
 @Table(name = "cat")
 public class Cat {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column
     private String name;
 
     @Column
@@ -28,12 +28,17 @@ public class Cat {
     @Column
     private String breed;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "profile_cat",
+            joinColumns = {@JoinColumn(name = "cat_id")},
+            inverseJoinColumns = {@JoinColumn(name = "profile_id")})
+    private List<Profile> profiles;
 
-    public Cat(String name) {
-        this.name = name;
-    }
+    @OneToMany(mappedBy = "cat")
+    private List<FoodPlan> foodPlans;
 
     public Cat() {
-
+        profiles = new ArrayList<>();
+        foodPlans = new ArrayList<>();
     }
 }

@@ -10,12 +10,12 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/cat/foodbag")
+@RequestMapping("/foodbag")
 public class FoodBagController {
     private final FoodBagService foodBagService;
 
     @GetMapping()
-    public HttpEntity<List<FoodBagDTO>> view(@PathVariable long catId) {
+    public HttpEntity<List<FoodBagDTO>> view() {
         return new HttpEntity<>(foodBagService.getFoodBags());
     }
 
