@@ -19,9 +19,6 @@ public class Meal {
     @JoinColumn(name = "food_id", updatable = false)
     private Food food;
 
-    @Transient
-    private Long foodId;
-
     @Column
     private Double weight;
     @Column

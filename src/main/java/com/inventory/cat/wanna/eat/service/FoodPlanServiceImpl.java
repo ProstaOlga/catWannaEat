@@ -67,9 +67,7 @@ public class FoodPlanServiceImpl implements FoodPlanService {
 
 
     private void saveMeals(List<Meal> meals, Long foodPlanId) {
-        meals.stream()
-                .peek(meal -> meal.setFood(foodRepo.getById(meal.getFoodId())))
-                .forEach(meal -> meal.setFoodPlan(foodPlanRepo.getById(foodPlanId)));
+        meals.forEach(meal -> meal.setFoodPlan(foodPlanRepo.getById(foodPlanId)));
         mealRepo.saveAll(meals);
     }
 

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-30T03:39:13+0300",
+    date = "2022-08-01T16:54:56+0300",
     comments = "version: 1.5.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.4.jar, environment: Java 11.0.14.1 (Amazon.com Inc.)"
 )
 @Component
@@ -77,7 +77,6 @@ public class ProfileMapperImpl implements ProfileMapper {
 
         meal.setId( mealDTO.getId() );
         meal.setFood( foodDTOToFood( mealDTO.getFood() ) );
-        meal.setFoodId( mealDTO.getFoodId() );
         meal.setWeight( mealDTO.getWeight() );
         meal.setTimesOfDay( mealDTO.getTimesOfDay() );
 
@@ -176,7 +175,6 @@ public class ProfileMapperImpl implements ProfileMapper {
         MealDTO mealDTO = new MealDTO();
 
         mealDTO.setId( meal.getId() );
-        mealDTO.setFoodId( meal.getFoodId() );
         mealDTO.setFood( foodToFoodDTO( meal.getFood() ) );
         mealDTO.setWeight( meal.getWeight() );
         mealDTO.setTimesOfDay( meal.getTimesOfDay() );
