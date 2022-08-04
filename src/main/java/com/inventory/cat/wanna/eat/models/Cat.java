@@ -41,4 +41,11 @@ public class Cat {
         profiles = new ArrayList<>();
         foodPlans = new ArrayList<>();
     }
+
+    public FoodPlan getCurrentFoodPlan(){
+        return this.foodPlans.stream()
+                .filter(FoodPlan::isCurrent)
+                .findFirst()
+                .orElse(null);
+    }
 }

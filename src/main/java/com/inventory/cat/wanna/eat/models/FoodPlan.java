@@ -41,4 +41,16 @@ public class FoodPlan {
     public FoodPlan() {
         meals = new ArrayList<>();
     }
+
+    public Long getDailyPortion(String food) {
+        return this.meals.stream()
+                .filter(meal -> meal.getFood().getFoodType().equals(food))
+                .count();
+    }
+
+    public Long getDailyPortion(Food food) {
+        return this.meals.stream()
+                .filter(meal -> meal.getFood().equals(food))
+                .count();
+    }
 }
