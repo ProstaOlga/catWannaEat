@@ -62,16 +62,16 @@ public class FoodBagServiceImpl implements FoodBagService {
     public HashMap<String, Long> checkRunningOutFoods(Profile profile) {
         HashMap<String, Long> runningOutFoods = new HashMap<>();
 
-        HashMap<String, Long> presentFoodsCount = checkFoodsCount(profile);
+        HashMap<String, Long> presentFoodsCount = getFoodsCount(profile);
         presentFoodsCount.entrySet().stream()
-                .filter(set -> checkRestOfTheFood(set, profile) < 7L)
-                .forEach(set -> runningOutFoods.put(set.getKey(), set.getValue()));
+                .filter(set -> getRestOfTheFood(set, profile) < 7L)
+                .forEach(set -> runningOutFoods.put(set.getKey(), getRestOfTheFood(set, profile)));
 
         return runningOutFoods;
 
     }
 
-    private HashMap<String, Long> checkFoodsCount(Profile profile) {
+    private HashMap<String, Long> getFoodsCount(Profile profile) {
         HashMap<String, Long> presentFoodsCount = new HashMap<>();
         List<Food> currentFoods = profile.getPresentFoodTypes();
 
@@ -81,19 +81,28 @@ public class FoodBagServiceImpl implements FoodBagService {
     }
 
 
-    private Long checkRestOfTheFood(Map.Entry<String, Long> foodCountSet, Profile profile) {
-        List<Cat> cats = profile.getCats();
-        Long result = foodCountSet.getValue();
+    private Long getRestOfTheFood(Map.Entry<String, Long> foodCountSet, Profile profile) {
+        Long dailyConsumingForAllCats =  profile.getCats().stream()
+                .map(Cat::getCurrentFoodPlan)
+                .mapToLong(foodPlan -> foodPlan.getDailyConsuming(foodCountSet.getKey()))
+                .filter(dailyPortion -> dailyPortion > 0)
+                .reduce(0L, Long::sum);
 
-        for (Cat cat : cats) {
-            FoodPlan foodPlan = cat.getCurrentFoodPlan();
-            if (foodPlan != null) {
-                Long dailyPortion = foodPlan.getDailyPortion(foodCountSet.getKey());
-                result = foodCountSet.getValue() / dailyPortion;
-            }
-        }
+        return foodCountSet.getValue() / dailyConsumingForAllCats;
 
-        return result;
+
+//        List<Cat> cats = profile.getCats();
+//        Long result = foodCountSet.getValue();
+//
+//        for (Cat cat : cats) {
+//            FoodPlan foodPlan = cat.getCurrentFoodPlan();
+//            if (foodPlan != null) {
+//                Long dailyPortion = foodPlan.getDailyPortion(foodCountSet.getKey());
+//                result = foodCountSet.getValue() / dailyPortion;
+//            }
+//        }
+//
+//        return result;
     }
 
 

@@ -2,6 +2,7 @@ package com.inventory.cat.wanna.eat.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@ToString
 @Getter
 @Setter
 @Entity(name = "profile")

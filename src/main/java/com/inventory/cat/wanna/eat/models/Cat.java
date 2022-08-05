@@ -44,7 +44,7 @@ public class Cat {
 
     public FoodPlan getCurrentFoodPlan(){
         return this.foodPlans.stream()
-                .filter(FoodPlan::isCurrent)
+                .filter(FoodPlan::isActive)
                 .findFirst()
                 .orElse(null);
     }

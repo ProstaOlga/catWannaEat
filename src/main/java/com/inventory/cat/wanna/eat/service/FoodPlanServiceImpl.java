@@ -1,8 +1,8 @@
 package com.inventory.cat.wanna.eat.service;
 
 import com.inventory.cat.wanna.eat.dto.FoodPlanDTO;
-import com.inventory.cat.wanna.eat.dto.MealDTO;
 import com.inventory.cat.wanna.eat.mappers.FoodPlanMapper;
+import com.inventory.cat.wanna.eat.models.Cat;
 import com.inventory.cat.wanna.eat.models.FoodPlan;
 import com.inventory.cat.wanna.eat.models.Meal;
 import com.inventory.cat.wanna.eat.repos.CatRepo;
@@ -12,6 +12,7 @@ import com.inventory.cat.wanna.eat.repos.MealRepo;
 import com.inventory.cat.wanna.eat.service.api.FoodPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,8 +28,8 @@ public class FoodPlanServiceImpl implements FoodPlanService {
     private final FoodRepo foodRepo;
 
     @Override
-    public List<FoodPlanDTO> getFoodPlans() {
-        List<FoodPlan> foodPlans = (List<FoodPlan>) foodPlanRepo.findAll();
+    public List<FoodPlanDTO> getFoodPlans(Long catId) {
+        List<FoodPlan> foodPlans = (List<FoodPlan>) catRepo.getById(catId).getFoodPlans();
         return foodPlans.stream()
                 .map(FoodPlanMapper.INSTANCE::foodPlanToFoodPlanDTO)
                 .collect(Collectors.toList());
@@ -40,12 +41,13 @@ public class FoodPlanServiceImpl implements FoodPlanService {
     }
 
     @Override
+    @Transactional
     public void createFoodPlan(Long catId, FoodPlanDTO foodPlan) {
         FoodPlan eFoodPlan = FoodPlanMapper.INSTANCE.foodPlanDTOtoFoodPlan(foodPlan);
         eFoodPlan.setCat(catRepo.getById(catId));
 
-        if (eFoodPlan.isCurrent()) {
-            makeCurrent(eFoodPlan);
+        if (eFoodPlan.isActive()) {
+            finishOtherFoodPlans(eFoodPlan.getCat());
         }
 
         foodPlanRepo.save(eFoodPlan);
@@ -72,19 +74,25 @@ public class FoodPlanServiceImpl implements FoodPlanService {
     }
 
 
-    private void makeCurrent(FoodPlan newFoodPlan) {
-        newFoodPlan.setCurrent(true);
-        newFoodPlan.setStarted(LocalDateTime.now());
-        newFoodPlan.setFinished(null);
+    private void finishOtherFoodPlans(Cat cat) {
+//        List<FoodPlan> foodPlans = catRepo.getById(foodplan.getCat().getId()).getFoodPlans();
 
-        List<FoodPlan> foodPlans = (List<FoodPlan>) foodPlanRepo.findAll();
+//        if (foodplan.getId() != null) {
+//            foodPlans.stream()
+//                    .filter(fp -> !foodplan.getId().equals(fp.getId()))
+//                    .peek(fp -> fp.setFinished(LocalDateTime.now()))
+//                    .forEach(foodPlanRepo::save);
+//        } else  {
+//            foodPlans.stream()
+//                    .peek(fp -> fp.setFinished(LocalDateTime.now()))
+//                    .forEach(foodPlanRepo::save);
+//        }
+        cat.getFoodPlans().stream()
+                .peek(foodPlan -> foodPlan.setFinished(LocalDateTime.now()))
+                .forEach(foodPlanRepo::save);
 
-        if (!foodPlans.isEmpty()) {
-            foodPlans.stream().filter(fp -> newFoodPlan.getId() != fp.getId())
-                    .peek(fp -> fp.setFinished(LocalDateTime.now()))
-                    .peek(fp -> fp.setCurrent(false))
-                    .forEach(foodPlanRepo::save);
-        }
+
+
     }
 
 
