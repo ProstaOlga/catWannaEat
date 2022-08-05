@@ -2,7 +2,10 @@ package com.inventory.cat.wanna.eat.service;
 
 import com.inventory.cat.wanna.eat.dto.FoodBagDTO;
 import com.inventory.cat.wanna.eat.mappers.FoodBagMapper;
-import com.inventory.cat.wanna.eat.models.*;
+import com.inventory.cat.wanna.eat.models.Cat;
+import com.inventory.cat.wanna.eat.models.Food;
+import com.inventory.cat.wanna.eat.models.FoodBag;
+import com.inventory.cat.wanna.eat.models.Profile;
 import com.inventory.cat.wanna.eat.repos.FoodBagRepo;
 import com.inventory.cat.wanna.eat.repos.FoodRepo;
 import com.inventory.cat.wanna.eat.repos.ProfileRepo;
@@ -53,13 +56,18 @@ public class FoodBagServiceImpl implements FoodBagService {
     public void updateFoodBag(Long id, FoodBagDTO foodBag) {
         FoodBag changeFoodBag;
         changeFoodBag = FoodBagMapper.INSTANCE.foodBagDTOtoFoodBag(foodBag);
-        foodBagRepo.save(changeFoodBag);
+        updateFoodBag(changeFoodBag);
+    }
+
+    @Override
+    public void updateFoodBag(FoodBag foodBag) {
+        foodBagRepo.save(foodBag);
     }
 
 
     @Override
     @Transactional
-    public HashMap<String, Long> checkRunningOutFoods(Profile profile) {
+    public HashMap<String, Long> getRunningOutFoods(Profile profile) {
         HashMap<String, Long> runningOutFoods = new HashMap<>();
 
         HashMap<String, Long> presentFoodsCount = getFoodsCount(profile);
@@ -82,7 +90,7 @@ public class FoodBagServiceImpl implements FoodBagService {
 
 
     private Long getRestOfTheFood(Map.Entry<String, Long> foodCountSet, Profile profile) {
-        Long dailyConsumingForAllCats =  profile.getCats().stream()
+        Long dailyConsumingForAllCats = profile.getCats().stream()
                 .map(Cat::getCurrentFoodPlan)
                 .mapToLong(foodPlan -> foodPlan.getDailyConsuming(foodCountSet.getKey()))
                 .filter(dailyPortion -> dailyPortion > 0)

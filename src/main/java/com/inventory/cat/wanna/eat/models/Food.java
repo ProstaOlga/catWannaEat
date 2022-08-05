@@ -1,5 +1,6 @@
 package com.inventory.cat.wanna.eat.models;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@EqualsAndHashCode
+
 @Entity(name = "food")
 @Table(name = "food")
 public class Food {
