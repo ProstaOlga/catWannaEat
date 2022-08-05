@@ -2,7 +2,6 @@ package com.inventory.cat.wanna.eat.controllers;
 
 import com.inventory.cat.wanna.eat.service.api.FoodPlanService;
 import com.inventory.cat.wanna.eat.dto.FoodPlanDTO;
-import com.inventory.cat.wanna.eat.models.FoodPlan;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +16,12 @@ public class FoodPlanController {
     private final FoodPlanService foodPlanService;
 
     @GetMapping()
-    public HttpEntity<List<FoodPlanDTO>> view(){
-        return new HttpEntity<>(foodPlanService.getFoodPlans());
+    public HttpEntity<List<FoodPlanDTO>> view(@PathVariable Long catId){
+        return new HttpEntity<>(foodPlanService.getFoodPlans(catId));
     }
 
     @GetMapping("/{id}")
-    public HttpEntity<FoodPlanDTO> view(@PathVariable Long id){
+    public HttpEntity<FoodPlanDTO> view(@PathVariable Long catId, @PathVariable Long id){
         return new HttpEntity<>(foodPlanService.getFoodPlan(id));
     }
 
@@ -37,7 +36,7 @@ public class FoodPlanController {
     }
 
     @PutMapping("/{id}")
-    public void updateCurrentFoodPlan(@PathVariable Long id){
+    public void update(@PathVariable Long id){
         foodPlanService.updateCurrentFoodPlan(id);
     }
 }

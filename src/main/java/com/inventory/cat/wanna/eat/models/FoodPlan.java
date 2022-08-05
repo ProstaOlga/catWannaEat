@@ -2,6 +2,7 @@ package com.inventory.cat.wanna.eat.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -30,15 +31,30 @@ public class FoodPlan {
     @Column
     private LocalDateTime finished;
 
-    @Column
-    private boolean current;
+    @Transient
+    private boolean active;
 
     @OneToMany(mappedBy = "foodPlan")
     private List<Meal> meals;
 
-
-
     public FoodPlan() {
         meals = new ArrayList<>();
+    }
+
+    @PostLoad
+    private void fillActive() {
+        active = started != null && finished == null;
+    }
+
+    public Long getDailyConsuming(String food) {
+        return this.meals.stream()
+                .filter(meal -> meal.getFood().getFoodType().equals(food))
+                .count();
+    }
+
+    public Long getDailyConsuming(Food food) {
+        return this.meals.stream()
+                .filter(meal -> meal.getFood().equals(food))
+                .count();
     }
 }

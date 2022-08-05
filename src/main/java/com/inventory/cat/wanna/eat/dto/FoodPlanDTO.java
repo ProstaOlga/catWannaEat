@@ -10,6 +10,6 @@ import java.util.List;
 public class FoodPlanDTO {
     private Long id;
     private String name;
-    private boolean current;
+    private boolean active;
     private List<MealDTO> meals;
 }

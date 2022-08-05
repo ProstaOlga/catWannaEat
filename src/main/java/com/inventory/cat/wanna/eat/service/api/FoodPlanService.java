@@ -10,7 +10,7 @@ public interface FoodPlanService {
     /**
      * Получить список планов
      */
-    List<FoodPlanDTO> getFoodPlans();
+    List<FoodPlanDTO> getFoodPlans(Long catId);
 
     /**
      * Получить план питания по id
