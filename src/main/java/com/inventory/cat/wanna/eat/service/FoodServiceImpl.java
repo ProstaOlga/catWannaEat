@@ -1,5 +1,6 @@
 package com.inventory.cat.wanna.eat.service;
 
+import com.inventory.cat.wanna.eat.exceptions.NotFoundEntityException;
 import com.inventory.cat.wanna.eat.mappers.FoodMapper;
 import com.inventory.cat.wanna.eat.models.FoodPlan;
 import com.inventory.cat.wanna.eat.models.Meal;
@@ -37,18 +38,23 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public FoodDTO getFoodTypeById(Long id) {
-        return FoodMapper.INSTANCE.foodToFoodDTO(foodRepo.getById(id));
+        Food food = foodRepo.getById(id);
+        if (food == null) {
+            throw new NotFoundEntityException(Food.class, id);
+        }
+
+        return FoodMapper.INSTANCE.foodToFoodDTO(food);
     }
 
     @Override
     public void removeFoodType(Long id) {
-        List<FoodPlan> foodPlans = checkAvailableFoodInFoodPlans(id);
+        List<FoodPlan> foodPlans = getAvailableFoodInFoodPlans(id);
         if (foodPlans.isEmpty()){
             foodRepo.deleteById(id);
         }
     }
 
-    private List<FoodPlan> checkAvailableFoodInFoodPlans(Long id){
+    private List<FoodPlan> getAvailableFoodInFoodPlans(Long id){
         List<FoodPlan> foodPlans = (List<FoodPlan>) foodPlanRepo.findAll();
 
         return foodPlans.stream()

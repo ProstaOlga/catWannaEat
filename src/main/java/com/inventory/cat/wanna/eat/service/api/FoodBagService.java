@@ -1,6 +1,8 @@
 package com.inventory.cat.wanna.eat.service.api;
 
 import com.inventory.cat.wanna.eat.dto.FoodBagDTO;
+import com.inventory.cat.wanna.eat.exceptions.NotFoundCurrentFoodPlanException;
+import com.inventory.cat.wanna.eat.models.FoodBag;
 import com.inventory.cat.wanna.eat.models.Profile;
 
 import java.util.HashMap;
@@ -32,5 +34,7 @@ public interface FoodBagService {
      */
     void updateFoodBag(Long id, FoodBagDTO foodBag);
 
-    HashMap<String, Long> checkRunningOutFoods(Profile profile);
+    void updateFoodBag(FoodBag foodBag);
+
+    HashMap<String, Long> getRunningOutFoods(Profile profile) throws NotFoundCurrentFoodPlanException;
 }

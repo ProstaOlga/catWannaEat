@@ -1,5 +1,6 @@
 package com.inventory.cat.wanna.eat.models;
 
+import com.inventory.cat.wanna.eat.exceptions.NotFoundCurrentFoodPlanException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,10 +43,10 @@ public class Cat {
         foodPlans = new ArrayList<>();
     }
 
-    public FoodPlan getCurrentFoodPlan(){
+    public FoodPlan getCurrentFoodPlan() throws NotFoundCurrentFoodPlanException {
         return this.foodPlans.stream()
                 .filter(FoodPlan::isActive)
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new NotFoundCurrentFoodPlanException("Not found current food plan for this cat!"));
     }
 }

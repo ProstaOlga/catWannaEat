@@ -1,8 +1,10 @@
 package com.inventory.cat.wanna.eat.service;
 
 import com.inventory.cat.wanna.eat.dto.FoodPlanDTO;
+import com.inventory.cat.wanna.eat.exceptions.NotFoundEntityException;
 import com.inventory.cat.wanna.eat.mappers.FoodPlanMapper;
 import com.inventory.cat.wanna.eat.models.Cat;
+import com.inventory.cat.wanna.eat.models.FoodBag;
 import com.inventory.cat.wanna.eat.models.FoodPlan;
 import com.inventory.cat.wanna.eat.models.Meal;
 import com.inventory.cat.wanna.eat.repos.CatRepo;
@@ -13,6 +15,7 @@ import com.inventory.cat.wanna.eat.service.api.FoodPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,7 +40,12 @@ public class FoodPlanServiceImpl implements FoodPlanService {
 
     @Override
     public FoodPlanDTO getFoodPlan(Long id) {
-        return FoodPlanMapper.INSTANCE.foodPlanToFoodPlanDTO(foodPlanRepo.getById(id));
+        FoodPlan foodPlan = foodPlanRepo.getById(id);
+        if (foodPlan == null) {
+            throw new NotFoundEntityException(FoodPlan.class, id);
+        }
+
+        return FoodPlanMapper.INSTANCE.foodPlanToFoodPlanDTO(foodPlan);
     }
 
     @Override
@@ -63,7 +71,16 @@ public class FoodPlanServiceImpl implements FoodPlanService {
     }
 
     @Override
-    public void updateCurrentFoodPlan(Long id) {
+    public void updateFoodPlan(FoodPlanDTO foodPlan) {
+        FoodPlan eFoodPlan = FoodPlanMapper.INSTANCE.foodPlanDTOtoFoodPlan(foodPlan);
+
+        if (eFoodPlan.isActive()) {
+            finishOtherFoodPlans(eFoodPlan.getCat());
+        }
+
+        foodPlanRepo.save(eFoodPlan);
+        mealRepo.saveAll(eFoodPlan.getMeals());
+
 
     }
 

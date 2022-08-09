@@ -1,8 +1,13 @@
 package com.inventory.cat.wanna.eat.service;
 
 import com.inventory.cat.wanna.eat.dto.FoodBagDTO;
+import com.inventory.cat.wanna.eat.exceptions.NotFoundCurrentFoodPlanException;
+import com.inventory.cat.wanna.eat.exceptions.NotFoundEntityException;
 import com.inventory.cat.wanna.eat.mappers.FoodBagMapper;
-import com.inventory.cat.wanna.eat.models.*;
+import com.inventory.cat.wanna.eat.models.Cat;
+import com.inventory.cat.wanna.eat.models.Food;
+import com.inventory.cat.wanna.eat.models.FoodBag;
+import com.inventory.cat.wanna.eat.models.Profile;
 import com.inventory.cat.wanna.eat.repos.FoodBagRepo;
 import com.inventory.cat.wanna.eat.repos.FoodRepo;
 import com.inventory.cat.wanna.eat.repos.ProfileRepo;
@@ -33,7 +38,12 @@ public class FoodBagServiceImpl implements FoodBagService {
 
     @Override
     public FoodBagDTO getFoodBagById(Long id) {
-        return FoodBagMapper.INSTANCE.foodBagToFoodBagDTO(foodBagRepo.getById(id));
+        FoodBag foodBag = foodBagRepo.getById(id);
+        if (foodBag == null) {
+            throw new NotFoundEntityException(FoodBag.class, id);
+        }
+
+        return FoodBagMapper.INSTANCE.foodBagToFoodBagDTO(foodBag);
     }
 
     @Override
@@ -51,15 +61,20 @@ public class FoodBagServiceImpl implements FoodBagService {
 
     @Override
     public void updateFoodBag(Long id, FoodBagDTO foodBag) {
-        FoodBag changeFoodBag;
-        changeFoodBag = FoodBagMapper.INSTANCE.foodBagDTOtoFoodBag(foodBag);
-        foodBagRepo.save(changeFoodBag);
+        FoodBag eFoodBag;
+        eFoodBag = FoodBagMapper.INSTANCE.foodBagDTOtoFoodBag(foodBag);
+        updateFoodBag(eFoodBag);
+    }
+
+    @Override
+    public void updateFoodBag(FoodBag foodBag) {
+        foodBagRepo.save(foodBag);
     }
 
 
     @Override
     @Transactional
-    public HashMap<String, Long> checkRunningOutFoods(Profile profile) {
+    public HashMap<String, Long> getRunningOutFoods(Profile profile) {
         HashMap<String, Long> runningOutFoods = new HashMap<>();
 
         HashMap<String, Long> presentFoodsCount = getFoodsCount(profile);
@@ -82,13 +97,14 @@ public class FoodBagServiceImpl implements FoodBagService {
 
 
     private Long getRestOfTheFood(Map.Entry<String, Long> foodCountSet, Profile profile) {
-        Long dailyConsumingForAllCats =  profile.getCats().stream()
-                .map(Cat::getCurrentFoodPlan)
-                .mapToLong(foodPlan -> foodPlan.getDailyConsuming(foodCountSet.getKey()))
-                .filter(dailyPortion -> dailyPortion > 0)
-                .reduce(0L, Long::sum);
+        Long dailyConsumingForAllCats = 0L;
+        dailyConsumingForAllCats  = profile.getCats().stream()
+                    .map(Cat::getCurrentFoodPlan)
+                    .mapToLong(foodPlan -> foodPlan.getDailyConsuming(foodCountSet.getKey()))
+                    .filter(dailyPortion -> dailyPortion > 0)
+                    .reduce(0L, Long::sum);
 
-        return foodCountSet.getValue() / dailyConsumingForAllCats;
+            return foodCountSet.getValue() / dailyConsumingForAllCats;
 
 
 //        List<Cat> cats = profile.getCats();

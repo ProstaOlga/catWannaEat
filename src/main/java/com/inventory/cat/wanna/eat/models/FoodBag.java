@@ -2,11 +2,12 @@ package com.inventory.cat.wanna.eat.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
+@ToString
 @Getter
 @Setter
 
@@ -36,7 +37,12 @@ public class FoodBag {
         this.food = food;
         this.packingDate = LocalDate.now();
     }
+
     public FoodBag() {
+    }
+
+    public void reduceAmount() {
+        amount--;
     }
 
 

@@ -36,7 +36,7 @@ public class FoodPlanController {
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable Long id){
-        foodPlanService.updateCurrentFoodPlan(id);
+    public void update(@RequestBody FoodPlanDTO foodPlan){
+        foodPlanService.updateFoodPlan(foodPlan);
     }
 }

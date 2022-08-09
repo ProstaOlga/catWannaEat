@@ -2,12 +2,12 @@ package com.inventory.cat.wanna.eat.models;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -56,5 +56,11 @@ public class FoodPlan {
         return this.meals.stream()
                 .filter(meal -> meal.getFood().equals(food))
                 .count();
+    }
+
+    public List<Food> getFoods() {
+        return this.meals.stream()
+                .map(Meal::getFood)
+                .collect(Collectors.toList());
     }
 }
