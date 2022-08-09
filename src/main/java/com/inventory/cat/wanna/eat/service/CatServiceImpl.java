@@ -1,6 +1,8 @@
 package com.inventory.cat.wanna.eat.service;
 
 import com.inventory.cat.wanna.eat.dto.CatDTO;
+import com.inventory.cat.wanna.eat.exceptions.NotFoundCurrentFoodPlanException;
+import com.inventory.cat.wanna.eat.exceptions.NotFoundEntityException;
 import com.inventory.cat.wanna.eat.mappers.CatMapper;
 import com.inventory.cat.wanna.eat.models.Cat;
 import com.inventory.cat.wanna.eat.repos.CatRepo;
@@ -29,7 +31,12 @@ public class CatServiceImpl implements CatService {
 
     @Override
     public CatDTO getCatById(Long id) {
-        return CatMapper.INSTANCE.catToCatDTO(catRepo.getById(id));
+        Cat cat = catRepo.getById(id);
+           if (cat == null) {
+               throw new NotFoundEntityException(Cat.class, id);
+           }
+
+        return CatMapper.INSTANCE.catToCatDTO(cat);
     }
 
     @Override

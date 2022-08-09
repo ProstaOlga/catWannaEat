@@ -2,7 +2,6 @@ package com.inventory.cat.wanna.eat.service.api;
 
 
 import com.inventory.cat.wanna.eat.dto.FoodPlanDTO;
-import com.inventory.cat.wanna.eat.models.FoodPlan;
 
 import java.util.List;
 
@@ -30,7 +29,7 @@ public interface FoodPlanService {
     /**
      * Изменить текущий план питания
      */
-    void updateCurrentFoodPlan(Long id);
+    void updateFoodPlan(FoodPlanDTO foodPlan);
 
 
 

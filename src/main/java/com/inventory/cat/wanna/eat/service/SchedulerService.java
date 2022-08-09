@@ -1,5 +1,6 @@
 package com.inventory.cat.wanna.eat.service;
 
+import com.inventory.cat.wanna.eat.exceptions.NotFoundCurrentFoodPlanException;
 import com.inventory.cat.wanna.eat.models.EmailMessage;
 import com.inventory.cat.wanna.eat.models.MessageType;
 import com.inventory.cat.wanna.eat.models.Profile;
@@ -31,7 +32,7 @@ public class SchedulerService {
     @PostConstruct
 //    @Scheduled(cron = "0 0 19 ? * *")
     @Transactional
-    public void checkEndingFoodCount() {
+    public void checkEndingFoodCount(){
         List<Profile> profiles = (List<Profile>) profileRepo.findAll();
         for (Profile profile : profiles) {
             HashMap<String, Long> endingFoodBags = foodBagService.getRunningOutFoods(profile);
@@ -50,6 +51,5 @@ public class SchedulerService {
     public void DailyConsumeFood() {
         List<Profile> profiles = (List<Profile>) profileRepo.findAll();
         profiles.forEach(foodConsumerService::consumeFood);
-        profiles.forEach(p -> log.info("profile^ {}, foodBags^ {}", p.getName(), p.getFoodBags()));
     }
 }

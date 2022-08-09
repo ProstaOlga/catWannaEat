@@ -12,5 +12,4 @@ public class CatDTO {
     private int age;
     private int weight;
     private String breed;
-    private List<FoodPlanDTO> foodPlans;
 }
