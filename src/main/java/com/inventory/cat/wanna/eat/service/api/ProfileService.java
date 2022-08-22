@@ -1,34 +1,34 @@
 package com.inventory.cat.wanna.eat.service.api;
 
 import com.inventory.cat.wanna.eat.dto.ProfileDTO;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface ProfileService {
+public interface ProfileService extends UserDetailsService {
     /**
-     * Получить список адресатов
+     * Получить список профайлов
      */
-    List<ProfileDTO> getUsers();
+    List<ProfileDTO> getProfiles();
 
     /**
-     * Найти адресата по id
+     * Найти профайл по id
      */
-    ProfileDTO getUserById(Long id);
-
-
-    /**
-     * Добавить нового адресата
-     */
-    void createUser(ProfileDTO addressee);
+    ProfileDTO getProfileById(Long id);
 
     /**
-     * Удалить адресата
+     * Добавить новый профайл
      */
-    void removeUser(Long id);
+    void createProfile(ProfileDTO profile);
 
     /**
-     * Изменить почту адресата
+     * Удалить профайл
      */
-    void updateUser(ProfileDTO addressee);
+    void removeProfile(Long id);
+
+    /**
+     * Изменить профайл
+     */
+    void updateProfile(ProfileDTO profile);
 
 }

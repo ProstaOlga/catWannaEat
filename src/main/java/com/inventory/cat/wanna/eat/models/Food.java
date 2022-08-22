@@ -19,11 +19,15 @@ public class Food {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column
     private String foodType;
+
+    @OneToOne
+    private Profile profile;
 
     @OneToMany(mappedBy = "food")
     private List<FoodBag> foodBags;
+
 
     public Food() {
         foodBags = new ArrayList<>();

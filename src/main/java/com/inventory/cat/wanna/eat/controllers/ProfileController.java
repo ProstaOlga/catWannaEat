@@ -16,26 +16,26 @@ public class ProfileController {
 
     @GetMapping()
     public HttpEntity<List<ProfileDTO>> view() {
-        return new HttpEntity<>(profileService.getUsers());
+        return new HttpEntity<>(profileService.getProfiles());
     }
 
     @GetMapping("/{id}")
     public HttpEntity<ProfileDTO> view(@PathVariable Long id) {
-        return new HttpEntity<>(profileService.getUserById(id));
+        return new HttpEntity<>(profileService.getProfileById(id));
     }
 
     @PostMapping()
     public void create(@RequestBody ProfileDTO user) {
-        profileService.createUser(user);
+        profileService.createProfile(user);
     }
 
     @DeleteMapping("/{id}")
     public void remove(@PathVariable Long id) {
-        profileService.removeUser(id);
+        profileService.removeProfile(id);
     }
 
     @PutMapping("/{id}")
     public void update(@RequestBody ProfileDTO user) {
-        profileService.updateUser(user);
+        profileService.updateProfile(user);
     }
 }

@@ -1,11 +1,17 @@
 package com.inventory.cat.wanna.eat.models;
 
+import io.swagger.v3.oas.annotations.media.Encoding;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,13 +19,16 @@ import java.util.stream.Collectors;
 @Setter
 @Entity(name = "profile")
 @Table(name = "profile")
-public class Profile {
+public class Profile implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    private String password;
 
     @Column(unique = true)
     private String email;
@@ -32,6 +41,10 @@ public class Profile {
 
     @OneToMany(mappedBy = "profile")
     private List<FoodBag> foodBags;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id", updatable = false)
+    private Role role;
 
     public Profile() {
         cats = new ArrayList<>();
@@ -53,5 +66,40 @@ public class Profile {
         return this.foodBags.stream()
                 .map(FoodBag::getFood).distinct()
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority(this.role.getName()));
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.name;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

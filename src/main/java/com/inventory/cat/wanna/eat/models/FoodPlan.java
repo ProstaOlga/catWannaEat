@@ -63,4 +63,9 @@ public class FoodPlan {
                 .map(Meal::getFood)
                 .collect(Collectors.toList());
     }
+
+    public boolean isFood(String foodName){
+        return this.getFoods().stream()
+                .anyMatch(food -> foodName.equals(food.getFoodType()));
+    }
 }

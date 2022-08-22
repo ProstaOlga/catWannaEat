@@ -1,13 +1,15 @@
 package com.inventory.cat.wanna.eat.repos;
 
 import com.inventory.cat.wanna.eat.models.Profile;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface ProfileRepo extends CrudRepository<Profile, Long> {
+import java.util.Optional;
 
-    @Query("select p from profile p where p.id = :id")
-    Profile getById(Long id);
+@Repository
+public interface ProfileRepo extends JpaRepository<Profile, Long> {
+
+    Optional<Profile> findById(Long id);
+
+    Optional<Profile> findByName(String name);
 }

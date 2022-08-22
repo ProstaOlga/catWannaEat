@@ -20,5 +20,4 @@ public interface CatMapper {
 
     CatDTO catToCatDTO(Cat cat);
 
-
 }

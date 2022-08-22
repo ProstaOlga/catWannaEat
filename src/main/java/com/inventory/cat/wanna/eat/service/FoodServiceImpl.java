@@ -4,12 +4,15 @@ import com.inventory.cat.wanna.eat.exceptions.NotFoundEntityException;
 import com.inventory.cat.wanna.eat.mappers.FoodMapper;
 import com.inventory.cat.wanna.eat.models.FoodPlan;
 import com.inventory.cat.wanna.eat.models.Meal;
+import com.inventory.cat.wanna.eat.models.Profile;
 import com.inventory.cat.wanna.eat.repos.FoodPlanRepo;
 import com.inventory.cat.wanna.eat.repos.FoodRepo;
 import com.inventory.cat.wanna.eat.service.api.FoodService;
 import com.inventory.cat.wanna.eat.dto.FoodDTO;
 import com.inventory.cat.wanna.eat.models.Food;
+import com.inventory.cat.wanna.eat.util.ProfileUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +27,8 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public List<FoodDTO> getFoodTypes() {
-        List<Food> foods = (List<Food>) foodRepo.findAll();
+        Profile profile = ProfileUtil.getCurrentProfile();
+        List<Food> foods = foodRepo.getFoodsByProfile_Id(profile.getId());
 
         return foods.stream()
                 .map(FoodMapper.INSTANCE::foodToFoodDTO)
@@ -37,6 +41,7 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
+    @PreAuthorize("@authorizeCheck.food(#id)")
     public FoodDTO getFoodTypeById(Long id) {
         Food food = foodRepo.getById(id);
         if (food == null) {
